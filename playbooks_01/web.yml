@@ -1,0 +1,10 @@
+#web.yml: playbook for web servers
+- hosts: web
+  remote_user: vagrant
+  sudo: yes
+  pre_tasks:
+    - shell: echo 'I":" Beginning to configure web server..'
+  roles:
+    - nginx
+  post_tasks:
+    - shell: echo 'I":" Done configuring nginx web server...'

@@ -1,0 +1,3 @@
+---
+# playbooks_02.yml: this is a sitewide playbook
+- include: web.yml

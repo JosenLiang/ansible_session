@@ -1,0 +1,25 @@
+---
+- hosts: allUbuntuServers
+  remote_user: vagrant
+  sudo: yes
+  tasks:
+  - group:
+      name: devops
+      state: present
+  - name: create devops user with admin privileges
+    user:
+      name: devops
+      comment: "Devops user"
+      uid: 2001
+      group: devops
+  - name: install htop package
+    action: apt name=htop state=present update_cache=yes
+
+- hosts: www
+  user: vagrant
+  sudo: yes
+  tasks:
+  - name: install nginx web server
+    apt: pkg=nginx state=installed update_cache=true
+  - name: start nginx service
+    service: name=nginx state=started
