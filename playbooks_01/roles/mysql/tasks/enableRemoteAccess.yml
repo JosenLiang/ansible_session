@@ -1,0 +1,10 @@
+---
+- name: copy sql file to remote server
+  copy: src=mysql.sql dest=/usr/share/mysql.sql mode=0644
+  register: copy_sql_file
+
+- name: execute sql file transfered previously
+  shell: mysql -h localhost -P 3306 -u root -D mysql <mysql.sql
+  args:
+    chdir: /usr/share/
+  when: copy_sql_file.changed

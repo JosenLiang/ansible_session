@@ -1,0 +1,5 @@
+---
+- name: create mysql config
+  template: src="my.cnf.j2" dest="{{ mysql_cnfpath }}" mode=0644
+  notify:
+  - restart mysql service

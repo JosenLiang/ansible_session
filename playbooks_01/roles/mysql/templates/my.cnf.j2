@@ -1,0 +1,6 @@
+[mysqld]
+user={{ mysql_user | default("mysql") }}
+pid-file={{ mysql_pid }}
+socket={{ mysql_socket }}
+port={{ mysql_port }}
+bind-address = {{ mysql_bind }}

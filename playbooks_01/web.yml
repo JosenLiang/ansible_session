@@ -6,5 +6,6 @@
     - shell: echo 'I":" Beginning to configure web server..'
   roles:
     - nginx
+    - wordpress
   post_tasks:
     - shell: echo 'I":" Done configuring nginx web server...'
