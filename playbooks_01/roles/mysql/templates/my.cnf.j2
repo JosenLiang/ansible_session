@@ -1,6 +1,17 @@
 [mysqld]
-user={{ mysql_user | default("mysql") }}
-pid-file={{ mysql_pid }}
-socket={{ mysql_socket }}
-port={{ mysql_port }}
-bind-address = {{ mysql_bind }}
+user = {{ mysql['config']['user'] | default("mysql") }}
+{% if mysql.config.pid is defined %}
+pid-file = {{ mysql['config']['pid'] }}
+{% endif %}
+{% if mysql.config.socket is defined %}
+socket = {{ mysql['config']['socket'] }}
+{% endif %}
+{% if mysql.config.port is defined %}
+port = {{ mysql['config']['port'] }}
+{% endif %}
+{% if mysql.config.datadir is defined %}
+datadir = {{ mysql['config']['datadir'] }}
+{% endif %}
+{% if mysql.config.bind is defined %}
+bind-address = {{ mysql['config']['bind'] }}
+{% endif %}

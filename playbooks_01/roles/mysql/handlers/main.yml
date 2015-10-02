@@ -1,4 +1,4 @@
 ---
 # handlers file for mysql
 - name: restart mysql service
-  service: name="{{ mysql_service }}" state=restarted
+  service: name="{{ mysql['service'] }}" state=restarted

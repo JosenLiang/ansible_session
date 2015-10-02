@@ -1,5 +1,5 @@
 ---
 - name: install mysql server
   yum:
-    name: "{{mysql_pkg}}"
+    name: "{{ mysql['pkg']['server'] }}"
     update_cache: yes

@@ -1,5 +1,15 @@
 ---
+- name: install mysql client
+  apt:
+    name: "{{ mysql['pkg']['client'] }}"
+    update_cache: yes
+
 - name: install mysql server
   apt:
-    name: "{{mysql_pkg}}"
+    name: "{{ mysql['pkg']['server'] }}"
     update_cache: yes
+  when: mysql.server
+
+- name: install mysql python binding
+  apt:
+    name: "{{ mysql['pkg']['python'] }}"
