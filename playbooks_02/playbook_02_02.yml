@@ -1,0 +1,23 @@
+---
+# demo for command modules
+- hosts: all
+  remote_user: vagrant
+  sudo: yes
+  tasks:
+    - name: demo for Raw
+      raw: ls -ltr
+      args:
+        chdir: /etc
+
+    - name: demo for Command
+      command: ls -ltr
+      args:
+        chdir: /etc
+
+    - name: demo for shell
+      shell: ls -ltr | grep host >> /tmp/hostconfigs
+      args:
+        chdir: /etc
+
+    - name: demo for script
+      script: files/ls.sh

@@ -1,0 +1,5 @@
+- hosts: lb
+  remote_user: vagrant
+  sudo: yes
+  roles:
+    - { role: haproxy, when: ansible_os_family == 'Debian' }

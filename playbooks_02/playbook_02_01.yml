@@ -1,0 +1,37 @@
+---
+# install MySQL database in database host
+- hosts: database
+  remote_user: vagrant
+  sudo: yes
+  tasks:
+    - name: install mysql server
+      apt:
+        name: mysql-server
+        update_cache: yes
+      register: mysql_installation
+
+    - name: copy configuration file
+      template:
+        src: files/my.cnf.j2
+        dest: "{{ mysql.config.filePath }}"
+        mode: 0644
+      notify: restart mysql service
+
+    - name: start mysql service
+      service: name=mysql state=started
+      when: mysql_installation.changed
+
+    - name: copy sql file to remote server
+      copy: src=files/mysql.sql dest=/usr/share/mysql.sql mode=0644
+      when: mysql_installation.changed
+      register: copy_sql_file
+
+    - name: execute sql file transfered previously
+      shell: mysql -h localhost -P 3306 -u root -D mysql <mysql.sql
+      args:
+        chdir: /usr/share/
+      when: copy_sql_file.changed
+      notify: restart mysql service
+  handlers:
+    - name: restart mysql service
+      service: name=mysql state=restarted

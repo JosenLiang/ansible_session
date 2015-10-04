@@ -1,0 +1,88 @@
+---
+# demo for web application installation
+- hosts: web
+  remote_user: vagrant
+  sudo: yes
+  vars:
+    web:
+      path: /usr/local/share/springValidation
+  tasks:
+    - name: Add Java repository to sources
+      apt_repository:
+        repo: ppa:webupd8team/java
+      tags:
+        - java
+        - gradle
+
+    - name: Autoaccept Java license
+      shell: echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
+      tags: [java, gradle]
+
+    - name: Install Java 7
+      apt:
+        pkg: oracle-java7-installer
+        state: latest
+        install_recommends: true
+        update_cache: true
+      tags:
+        - java
+        - gradle
+
+    - name: Download Gradle 1.12
+      get_url:
+        dest: /usr/local/share/
+        url: "{{ web.gradle.url }}"
+      tags: [gradle]
+
+    - name: Install unzip
+      apt:
+        pkg: unzip
+        state: installed
+      tags: [gradle]
+
+    - name: Unarchive gradle 1.12
+      unarchive:
+        src: "/usr/local/share/{{ web.gradle.file }}"
+        dest: /usr/local/share/
+        copy: no
+      tags: [gradle]
+
+    - name: Add Gradle executable symlink to path
+      shell: ln -s /usr/local/share/gradle-1.12/bin/gradle /usr/local/bin/gradle creates=/usr/local/bin/gradle
+      tags: [gradle]
+
+    - name: Install git
+      apt:
+        pkg: git
+        state: installed
+      tags:
+        - git
+
+    - name: Clone source code from git repository
+      command: "git clone {{ web.git }}"
+      args:
+        chdir: /usr/local/share/
+        creates: "{{ web.path }}"
+      tags:
+        - web
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

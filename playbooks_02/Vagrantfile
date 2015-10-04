@@ -1,0 +1,27 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+# Sample Vagranfile to setup Learning Environment
+# for Ansible Playbook Essentials
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+    config.vm.box = "ubuntu/trusty64"
+    config.ssh.insert_key = false
+
+    config.vm.define "database" do |database|
+        database.vm.network :private_network, ip: "192.168.61.100"
+    end
+
+    config.vm.define "web" do |web|
+        web.vm.network :private_network, ip: "192.168.61.101"
+    end
+
+    config.vm.define "loadBalance" do |loadBalance|
+        loadBalance.vm.network :private_network, ip: "192.168.61.103"
+    end
+
+    config.vm.define "memoryCache" do |memoryCache|
+        memoryCache.vm.network :private_network, ip: "192.168.61.104"
+    end
+end

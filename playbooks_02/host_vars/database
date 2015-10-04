@@ -1,0 +1,8 @@
+mysql:
+    config:
+        user: mysql
+        port: 3306
+        bind: "{{ ansible_eth1.ipv4.address }}"
+        pid: /var/run/mysqld/mysqld.pid
+        socket: /var/run/mysqld/mysqld.sock
+        filePath: /etc/mysql/my.cnf

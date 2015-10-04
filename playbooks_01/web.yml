@@ -5,7 +5,8 @@
   pre_tasks:
     - shell: echo 'I":" Beginning to configure web server..'
   roles:
-    - nginx
+    - { role: nginx, when: ansible_os_family == 'Debian' }
+    - php5-fpm
     - wordpress
   post_tasks:
     - shell: echo 'I":" Done configuring nginx web server...'
