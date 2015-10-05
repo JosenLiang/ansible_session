@@ -1,0 +1,17 @@
+---
+# defaults file for rabbitMQ
+rabbitMQ:
+  pkg: rabbitmq-server=3.5.5-3
+  plugins: rabbitmq_management,rabbitmq_tracing,rabbitmq_federation
+  service: rabbitmq-server
+  config:
+    file: /etc/rabbitmq/rabbitmq.config
+    ui:
+      port: 8080
+  users:
+    - name: liang
+      password: chengdu
+      tags: administrator
+    - name: jinchen
+      password: chengdu
+      tags: administrator

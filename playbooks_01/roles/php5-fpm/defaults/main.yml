@@ -1,0 +1,15 @@
+---
+# defaults file for php5-fpm
+php5:
+  packages:
+    - php5-fpm
+    - php5-common
+    - php5-curl
+    - php5-mysql
+    - php5-cli
+    - php5-gd
+    - php5-mcrypt
+    - php5-suhosin
+    - php5-memcache
+  service:
+    name: php5-fpm

@@ -1,0 +1,5 @@
+---
+# tasks file for rabbitMQ
+- include: install.yml
+- include: config.yml
+- include: users.yml
