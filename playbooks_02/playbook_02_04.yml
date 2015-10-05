@@ -1,0 +1,56 @@
+---
+# demo for variables
+- name: print out varibles
+  hosts: messageQueue
+  remote_user: vagrant
+  sudo: yes
+  gather_facts: yes
+  vars_files:
+    - files/variables.yml
+  tasks:
+    - name: print varibles
+      debug:
+        var: host_name
+
+    - debug: msg="The instance - {{ host_name }} was created by {{ creator }}"
+
+    - name: capture output of whoami command
+      action: command whoami
+      register: login
+
+    - debug: var=login
+
+    - name: Run a unavaliable program
+      raw: unzip
+      register: result
+      ignore_errors: yes
+
+    - debug: var=result
+
+    - name: print out fact
+      debug:
+      args:
+        var: ansible_all_ipv4_addresses
+
+    - name: create directory
+      file:
+        path: /etc/ansible/facts.d/
+        state: directory
+        mode: u=rw,g=r,o=r
+
+    - name: copy custom fact to server
+      copy:
+        src: files/basic.fact
+        dest: /etc/ansible/facts.d/basic.fact
+        mode: 0644
+
+    - name: print out custom facts
+      debug: var=ansible_local.basic.ansible.user
+
+    - name: set fact
+      set_fact:
+        location:
+          province: Si Chuan
+          city: Cheng Du
+
+    - debug: msg="The provice is {{ location.province }}, the city is {{ location.city }}"

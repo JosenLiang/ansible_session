@@ -1,0 +1,15 @@
+---
+- name: enable rabbitmq plugins
+  rabbitmq_plugin:
+    names: "{{ rabbitMQ.plugins }}"
+    state: enabled
+  notify:
+    - restart rabbitMQ
+
+- name: copy configuration file to host
+  template:
+    src: rabbitmq.config.j2
+    dest: "{{ rabbitMQ.config.file }}"
+    mode: 0644
+  notify:
+    - restart rabbitMQ

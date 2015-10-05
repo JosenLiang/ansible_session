@@ -1,0 +1,16 @@
+---
+- name: add the official rabbitMQ repository key
+  apt_key:
+    url: https://www.rabbitmq.com/rabbitmq-signing-key-public.asc
+
+- name: add rabbitMQ official apt repository
+  apt_repository:
+    repo: deb http://www.rabbitmq.com/debian/ testing main
+    state: present
+
+- name: install rabbitMQ
+  apt:
+    pkg: "{{ rabbitMQ.pkg }}"
+    state: installed
+    update_cache: yes
+  register: installation

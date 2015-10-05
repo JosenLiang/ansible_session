@@ -1,0 +1,6 @@
+---
+- hosts: messageQueue
+  sudo: yes
+  gather_facts: yes
+  roles:
+    - rabbitMQ

@@ -1,0 +1,17 @@
+---
+- name: add users
+  rabbitmq_user:
+    user: "{{ item.name }}"
+    password: "{{ item.password }}"
+    tags: "{{ item.tags }}"
+    vhost: /
+    configure_priv: .*
+    write_priv: .*
+    read_priv: .*
+    state: present
+  with_items: rabbitMQ.users
+
+- name: remove default guest user
+  rabbitmq_user:
+    user: guest
+    state: absent

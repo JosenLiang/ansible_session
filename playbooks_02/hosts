@@ -1,8 +1,9 @@
-;host_name ansible_ssh_host=***.***.***.*** ansible_ssh_port=** ansible_ssh_private_key_file=*****
-database ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222
-web ansible_ssh_host=127.0.0.1 ansible_ssh_port=2200
-loadBalance ansible_ssh_host=127.0.0.1 ansible_ssh_port=2201
-memoryCache ansible_ssh_host=127.0.0.1 ansible_ssh_port=2202
+;http://docs.ansible.com/ansible/intro_inventory.html
+database ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222 host_name=database
+web ansible_ssh_host=127.0.0.1 ansible_ssh_port=2200 host_name=web
+loadBalance ansible_ssh_host=127.0.0.1 ansible_ssh_port=2201 host_name=loadBalance
+memoryCache ansible_ssh_host=127.0.0.1 ansible_ssh_port=2202 host_name=memoryCache
+messageQueue ansible_ssh_host=127.0.0.1 ansible_ssh_port=2203 host_name=messageQueue
 
 [frontend]
 loadBalance
@@ -10,4 +11,12 @@ web
 
 [backend]
 memoryCache
+messageQueue
 database
+
+[dev:children]
+frontend
+backend
+
+[all:vars]
+creator=vagrant

@@ -1,0 +1,2 @@
+messageQueue:
+  type: Rabbit MQ

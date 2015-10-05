@@ -1,0 +1,59 @@
+---
+- name: Running a Task on a Machine other than current host
+  hosts: web
+  sudo: yes
+  gather_facts: yes
+  tasks:
+    - name: collect facts of database host
+      setup:
+      register: database_facts
+      delegate_to: database
+
+    - name: print out ip address of database host
+      debug: var=ansible_eth1.ipv4.address
+
+    - name: collection facts of current host
+      setup:
+
+    - name: print out ip address of database host
+      debug: var=database_facts.ansible_facts.ansible_eth1.ipv4.address
+
+    - name: print out ip address of current host
+      debug: var=ansible_eth1.ipv4.address
+
+- name: Running on one host at a Time
+  hosts: all
+  sudo: yes
+  gather_facts: no
+  serial: 1
+  tasks:
+    - name: print out hostname of all hosts
+      debug: var=inventory_hostname
+
+- name: Running tasks on all hosts
+  hosts: dev
+  sudo: yes
+  gather_facts: no
+  tasks:
+    - name: print out hostname of all hosts
+      debug: var=inventory_hostname
+
+    - name: only print host name once for all hosts
+      debug: var=inventory_hostname
+      run_once: yes
+
+    - name: print out host name of all hosts in anyone host
+      debug: var=item
+      run_once: yes
+      with_items: play_hosts
+
+    - name: print out the ip address of all hosts in anyone host
+      debug: msg="{{ item.key }}={{ item.value }}"
+      run_once: yes
+      with_dict: groups
+
+    - name: print out all lines in files/customers.txt
+      debug: var=item
+      run_once: yes
+      with_lines:
+        - cat files/customers.txt
