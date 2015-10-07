@@ -3,4 +3,9 @@
   sudo: yes
   gather_facts: yes
   roles:
-    - rabbitMQ
+    - role: rabbitMQ
+      rabbitMQ:
+        users:
+          - name: Jian
+            password: chengdu
+            tags: administrator

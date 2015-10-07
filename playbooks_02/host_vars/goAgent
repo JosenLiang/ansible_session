@@ -1,0 +1,5 @@
+go:
+    server: no
+gradle:
+    file: gradle-1.12-all.zip
+    url: https://services.gradle.org/distributions/gradle-1.12-all.zip

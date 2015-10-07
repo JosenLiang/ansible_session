@@ -4,6 +4,8 @@ web ansible_ssh_host=127.0.0.1 ansible_ssh_port=2200 host_name=web
 loadBalance ansible_ssh_host=127.0.0.1 ansible_ssh_port=2201 host_name=loadBalance
 memoryCache ansible_ssh_host=127.0.0.1 ansible_ssh_port=2202 host_name=memoryCache
 messageQueue ansible_ssh_host=127.0.0.1 ansible_ssh_port=2203 host_name=messageQueue
+goServer ansible_ssh_host=127.0.0.1 ansible_ssh_port=2204 host_name=goServer
+goAgent ansible_ssh_host=127.0.0.1 ansible_ssh_port=2205 host_name=goAgent
 
 [frontend]
 loadBalance
@@ -17,6 +19,10 @@ database
 [dev:children]
 frontend
 backend
+
+[cd]
+goServer
+goAgent
 
 [all:vars]
 creator=vagrant

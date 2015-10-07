@@ -1,0 +1,66 @@
+---
+- hosts: cd
+  sudo: yes
+  tasks:
+    - name: Add Java repository to sources
+      apt_repository:
+        repo: ppa:webupd8team/java
+      tags: [java]
+
+    - name: Autoaccept Java license
+      shell: echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
+      tags: [java]
+
+    - name: Install Java 7
+      apt:
+        pkg: oracle-java7-installer
+        state: latest
+        install_recommends: true
+        update_cache: true
+      tags: [java]
+
+    - name: Install unzip
+      apt:
+        pkg: unzip
+        state: installed
+      tags: [unzip]
+
+- hosts: cd
+  sudo: yes
+  vars:
+    go:
+      agent:
+        server:
+          address: 192.168.61.106
+  roles:
+    - go
+
+- hosts: cd
+  sudo: yes
+  tasks:
+    - name: Download Gradle 1.12
+      get_url:
+        dest: /usr/local/share/
+        url: "{{ gradle.url }}"
+      when: go.server==false
+      tags: [gradle]
+
+    - name: Unarchive gradle 1.12
+      unarchive:
+        src: "/usr/local/share/{{ gradle.file }}"
+        dest: /usr/local/share/
+        copy: no
+      when: go.server==false
+      register: unarchive_gradle
+      tags: [gradle]
+
+    - name: Add Gradle executable symlink to path
+      shell: ln -s /usr/local/share/gradle-1.12/bin/gradle /usr/local/bin/gradle creates=/usr/local/bin/gradle
+      when: unarchive_gradle.changed
+      tags: [gradle]
+
+    - name: Install git
+      apt:
+        pkg: git
+        state: installed
+      tags: [git]

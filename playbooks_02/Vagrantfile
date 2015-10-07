@@ -29,4 +29,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.define "messageQueue" do |messageQueue|
         messageQueue.vm.network :private_network, ip: "192.168.61.105"
     end
+
+    config.vm.define "goServer" do |goServer|
+        goServer.vm.network :private_network, ip: "192.168.61.106"
+    end
+
+    config.vm.provider :virtualbox do |goServer|
+        goServer.customize ["modifyvm", :id, "--memory", 1536]
+    end
+
+    config.vm.define "goAgent" do |goAgent|
+        goAgent.vm.network :private_network, ip: "192.168.61.107"
+    end
 end

@@ -1,0 +1,34 @@
+---
+- name: install go-server
+  apt:
+    pkg: go-server={{ go.version }}
+    state: present
+    force: yes
+    update_cache: true
+  when: go.server==true
+  register: server_installation
+  tags: [go]
+
+- name: start go-server
+  service:
+    name: go-server
+    state: started
+  when: server_installation.changed
+  tags: [go]
+
+- name: install go-agent
+  apt:
+    pkg: go-agent={{ go.version }}
+    state: present
+    force: yes
+    update_cache: true
+  when: go.server==false
+  register: agent_installation
+  tags: [go]
+
+- name: start go-agent
+  service:
+    name: go-agent
+    state: started
+  when: agent_installation.changed
+  tags: [go]

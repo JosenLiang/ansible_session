@@ -1,0 +1,8 @@
+- name: config go agent
+  template:
+    src: go-agent.j2
+    dest: "{{ go.agent.config }}"
+    mode: 0644
+  notify: restart go agent service
+  when: go.server==false
+  tags: [go]

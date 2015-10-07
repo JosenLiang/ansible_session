@@ -1,0 +1,12 @@
+---
+- name: add go repository to source
+  shell: echo "deb http://dl.bintray.com/gocd/gocd-deb/ /" > /etc/apt/sources.list.d/gocd.list
+  args:
+    creates: /etc/apt/sources.list.d/gocd.list
+  register: add_repository
+  tags: [go]
+
+- name: download public key for gocd
+  shell: wget --quiet -O - "https://bintray.com/user/downloadSubjectPublicKey?username=gocd" | sudo apt-key add -
+  when: add_repository.changed
+  tags: [go]
